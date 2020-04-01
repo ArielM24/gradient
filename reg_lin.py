@@ -24,7 +24,7 @@ def mat_x(mat):
 	xs = []
 	for row in mat:
 		xs.append((row[:-1]))
-	return np.array(np.matrix(xs).T)
+	return np.array(np.matrix(xs))
 
 def mat_y(mat):
 	y = []
@@ -45,9 +45,40 @@ def f_scaling(mat_x):
 		sca.append(x)
 	return np.array(sca)
 
-def gradient(x,y):
-	n = len(x)
-	print(n)
+def cost(x,y,a,n,m):
+	pass
+
+def hyp(x,n,theta):
+	su = 0
+	for i in range(n):
+		su = su + theta[i]*x[i]
+	return su
+
+def suma(x,theta,y,m,n,j):
+	su = 0
+	for i in range(m):
+		su = np.round(su + (hyp(x[i],n,theta) - y[i])*x[i][j],decimals=8)
+	return np.round(su,decimals=8)
+
+def gradient(x,y,a,init,ite):
+	m = len(x)
+	n = len(x[0])
+	theta = []
+	aux = []
+	for i in range(n):
+		theta.append(init)
+		aux.append(init)
+
+	print("init")
+	for c in range(ite):
+		print("ite",c)
+		print("theta",theta)
+		for j in range(n):
+			aux[j] = np.round(-(a/m) * suma(x,theta,y,m,n,j),decimals=8)
+		for j in range(n):
+			theta[j] = aux[j]
+	print("end")
+	return theta
 
 
 if __name__ == '__main__':
@@ -60,4 +91,5 @@ if __name__ == '__main__':
 	#print(y)
 	xf = f_scaling(x)
 	#print(len(xf))
-	gradient(x,y)
+	thetha = gradient(x,y,0.1,0,50)
+	print(thetha)
